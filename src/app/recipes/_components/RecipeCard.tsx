@@ -6,7 +6,7 @@ interface RecipeCardProps {
   recipe: any
   isCustom: boolean
   onDelete?: (id: string) => void
-  onFavorite?: (recipe: any) => void
+  onToggleFavorite?: (recipe: any) => void
   isFavorite?: boolean
 }
 
@@ -14,11 +14,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   recipe,
   isCustom,
   onDelete,
-  onFavorite,
+  onToggleFavorite,
   isFavorite,
 }) => {
   return (
-    <div className="border rounded-xl p-5 hover:shadow-lg transition">
+    <div className="border rounded-xl p-5 hover:shadow-lg transition relative">
       {recipe.image && (
         <Image
           src={recipe.image}
@@ -56,13 +56,21 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
       )}
 
       <div className="mt-4 flex space-x-2">
-        <Link href={isCustom ? `/recipes/custom/${recipe.id}` : `/recipes/external/${recipe.id}`}>
+        <Link
+          href={isCustom ? `/recipes/custom/${recipe.id}` : `/recipes/external/${recipe.id}`}
+          className="text-blue-500 hover:underline"
+        >
           View Details
         </Link>
 
         {isCustom && (
           <>
-            <Link href={`/recipes/custom/update/${recipe.id}`}>Update Recipe</Link>
+            <Link
+              href={`/recipes/custom/update/${recipe.id}`}
+              className="text-green-500 hover:underline"
+            >
+              Update Recipe
+            </Link>
             <button
               className="bg-red-500 text-white px-4 py-2 rounded-lg"
               onClick={() => onDelete && onDelete(recipe.id)}
@@ -72,10 +80,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           </>
         )}
 
-        {!isCustom && (
+        {!isCustom && onToggleFavorite && (
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded-lg"
-            onClick={() => onFavorite && onFavorite(recipe)}
+            className={`px-4 py-2 rounded-lg ${
+              isFavorite ? 'bg-red-500' : 'bg-green-500'
+            } text-white`}
+            onClick={() => onToggleFavorite(recipe)}
           >
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </button>

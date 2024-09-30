@@ -1,10 +1,21 @@
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const { searchParams } = new URL(req.url)
 
-    const requestUrl = `${apiUrl}/recipes/complexSearch?apiKey=${process.env.NEXT_PUBLIC_API_KEY}&number=50&offset=0&addRecipeInformation=true`
+    const params = new URLSearchParams()
+    params.set('apiKey', process.env.NEXT_PUBLIC_API_KEY || '')
+    params.set('addRecipeInformation', 'true')
+    ;['query', 'diet', 'number'].forEach((key) => {
+      const value = searchParams.get(key)
+      if (value) {
+        params.set(key, value)
+      }
+    })
+
+    const requestUrl = `${apiUrl}/recipes/complexSearch?${params.toString()}`
 
     const responseRecipes = await fetch(requestUrl, {
       headers: {
@@ -28,6 +39,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       },
     })
   } catch (error) {
+    console.error('API Proxy Error:', error)
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 })
   }
 }

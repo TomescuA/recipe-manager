@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import storage from 'redux-persist/lib/storage'
-import { persistReducer } from 'redux-persist'
 import rootReducer from './rootReducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { useDispatch } from 'react-redux'
 
 const persistConfig = {
   key: 'root',
@@ -11,8 +12,8 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export const makeStore = () => {
-  return configureStore({
+export const makeStore = () =>
+  configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
@@ -21,7 +22,7 @@ export const makeStore = () => {
         },
       }),
   })
-}
 
 export type AppStore = ReturnType<typeof makeStore>
 export type AppDispatch = AppStore['dispatch']
+export const useAppDispatch = () => useDispatch<AppDispatch>()

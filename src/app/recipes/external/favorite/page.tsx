@@ -26,7 +26,7 @@ const FavoritesList: React.FC = () => {
               recipe={recipe}
               isCustom={false}
               isFavorite={true}
-              onFavorite={onToggleFavorite}
+              onToggleFavorite={onToggleFavorite}
             />
           ))}
         </div>

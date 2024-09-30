@@ -1,17 +1,24 @@
+// app/recipes/RecipesPageClient.tsx
 'use client'
 
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import CustomRecipes from '@/app/recipes/custom/page'
-import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect } from 'react'
 import ExternalRecipesList from '@/app/recipes/external/page'
+import CustomRecipes from './custom/page'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+// import { setSearchTerm, addDietaryFilter } from '@/app/_store/slices/searchSlice'
+// import { fetchRecipes, setRecipes } from '@/app/_store/slices/recipesSlice'
+
+interface RecipesPageClientProps {
+  initialRecipes: any[]
+}
 
 const allowedTabs = ['external', 'custom']
 
-const RecipesPageClient = ({ apiRecipes }: { apiRecipes: any }): React.JSX.Element => {
+const RecipesPageClient: React.FC<RecipesPageClientProps> = ({ initialRecipes }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const dispatch = useDispatch()
 
   const tabFromUrl = searchParams.get('tab')
   const activeTab = allowedTabs.includes(tabFromUrl ?? '') ? tabFromUrl : 'external'
@@ -42,8 +49,7 @@ const RecipesPageClient = ({ apiRecipes }: { apiRecipes: any }): React.JSX.Eleme
       </div>
 
       <div className="recipes-content">
-        {activeTab === 'external' && <ExternalRecipesList apiRecipes={apiRecipes} />}
-
+        {activeTab === 'external' && <ExternalRecipesList recipes={initialRecipes} />}
         {activeTab === 'custom' && <CustomRecipes />}
       </div>
     </div>

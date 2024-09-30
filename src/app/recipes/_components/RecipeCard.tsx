@@ -7,12 +7,18 @@ interface RecipeCardProps {
   isCustom: boolean
   onDelete?: (id: string) => void
   onFavorite?: (recipe: any) => void
+  isFavorite?: boolean
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isCustom, onDelete, onFavorite }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({
+  recipe,
+  isCustom,
+  onDelete,
+  onFavorite,
+  isFavorite,
+}) => {
   return (
     <div className="border rounded-xl p-5 hover:shadow-lg transition">
- }
       {recipe.image && (
         <Image
           src={recipe.image}
@@ -24,10 +30,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isCustom, onDelete, onF
         />
       )}
 
-
       <h3 className="text-xl mt-3 font-bold">{recipe.title}</h3>
 
-  
       {isCustom ? (
         <p className="mt-2">
           {recipe.description.substring(0, 100)}
@@ -40,7 +44,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isCustom, onDelete, onF
         </p>
       )}
 
-    
       {isCustom && recipe.dietaryLabels && recipe.dietaryLabels.length > 0 && (
         <div className="mt-3">
           <h4 className="font-semibold">Dietary Labels:</h4>
@@ -52,14 +55,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isCustom, onDelete, onF
         </div>
       )}
 
- 
       <div className="mt-4 flex space-x-2">
-        {/* View Details Link */}
         <Link href={isCustom ? `/recipes/custom/${recipe.id}` : `/recipes/external/${recipe.id}`}>
           View Details
         </Link>
 
-  
         {isCustom && (
           <>
             <Link href={`/recipes/custom/update/${recipe.id}`}>Update Recipe</Link>
@@ -72,13 +72,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isCustom, onDelete, onF
           </>
         )}
 
-
         {!isCustom && (
           <button
             className="bg-green-500 text-white px-4 py-2 rounded-lg"
             onClick={() => onFavorite && onFavorite(recipe)}
           >
-            Favorite
+            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </button>
         )}
       </div>

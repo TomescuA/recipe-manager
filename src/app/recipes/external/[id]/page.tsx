@@ -2,18 +2,24 @@ import React from 'react'
 import { fetchRecipeDetails } from './api'
 import { fetchRecipesList } from '@/app/recipes/api'
 
-export async function generateStaticParams (): Promise<Array<{ id: string }>> {
+export async function generateStaticParams(): Promise<Array<{ id: string }>> {
   const recipes = await fetchRecipesList()
   return recipes.map((recipe: any) => ({ id: recipe.id.toString() }))
 }
 
-export default async function RecipeDetailsPage ({ params }: { params: { id: string } }): Promise<React.JSX.Element> {
+export default async function RecipeDetailsPage({
+  params,
+}: {
+  params: { id: string }
+}): Promise<React.JSX.Element> {
   const recipeId = params.id
   const recipe: any = await fetchRecipeDetails(recipeId)
 
   if (recipe === null || recipe === undefined) {
     return <div>Recipe not found.</div>
   }
+
+  console.log('recipe inside the external id', recipe)
 
   return (
     <div className="recipe-details">
@@ -30,6 +36,15 @@ export default async function RecipeDetailsPage ({ params }: { params: { id: str
 
       <h2>Instructions</h2>
       <p>{recipe.instructions}</p>
+      <h2>Cooking time</h2>
+      <p>{recipe.readyInMinutes} minutes</p>
+
+      <h2>Dietary labels</h2>
+      <ul>
+        {recipe.diets.map((diet: string) => (
+          <li key={diet}>{diet}</li>
+        ))}
+      </ul>
     </div>
   )
 }

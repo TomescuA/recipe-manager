@@ -2,8 +2,21 @@
 
 import React, { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
+import {
+  TopContainer,
+  RecipeContent,
+  SectionTitle,
+  DietaryLabelsList,
+  IngredientsList,
+  Instructions,
+  NotFoundContainer,
+  NotFoundMessage,
+  BackLink,
+} from './Details.styles'
+
+import Button from '@/app/_components/Button'
+import Hero from '@/app/_components/Hero'
 
 interface CustomRecipe {
   id: string
@@ -61,82 +74,44 @@ const CustomRecipeDetailsPage: React.FC = () => {
 
   if (!recipe) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <p>Recipe not found.</p>
-        <Link href="/recipes">← Back to Recipes</Link>
-      </div>
+      <NotFoundContainer>
+        <NotFoundMessage>Recipe not found.</NotFoundMessage>
+        <BackLink href="/recipes">← Back to Recipes</BackLink>
+      </NotFoundContainer>
     )
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-5">{recipe.title}</h1>
+    <>
+      <Hero title={recipe.title} />
+      <TopContainer>
+        <DietaryLabelsList>
+          <li>{recipe.dietaryLabels}</li>
+          <li>{recipe.cookingTime} min</li>
+        </DietaryLabelsList>
 
-      {recipe.image && (
-        <Image
-          src={recipe.image}
-          alt={recipe.title}
-          width={600}
-          height={400}
-          className="object-cover rounded-lg"
-          unoptimized
-        />
-      )}
+        <Button color="danger" onClick={() => onDelete()}>
+          Delete Recipe
+        </Button>
+      </TopContainer>
 
-      <div className="mt-5">
-        <h2 className="text-xl font-semibold">Description</h2>
+      <RecipeContent>
+        <SectionTitle>Description</SectionTitle>
         <p>{recipe.description}</p>
-      </div>
 
-      {recipe.ingredients && (
-        <div className="mt-5">
-          <h2 className="text-xl font-semibold">Ingredients</h2>
-          <ul className="list-disc list-inside">
+        <SectionTitle>Ingredients</SectionTitle>
+        {recipe?.ingredients && (
+          <IngredientsList>
             {recipe.ingredients.split('\n').map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
             ))}
-          </ul>
-        </div>
-      )}
+          </IngredientsList>
+        )}
 
-      {recipe.instructions && (
-        <div className="mt-5">
-          <h2 className="text-xl font-semibold">Instructions</h2>
-          <p>{recipe.instructions}</p>
-        </div>
-      )}
-
-      {recipe.cookingTime && (
-        <div className="mt-5">
-          <h2 className="text-xl font-semibold">Cooking Time</h2>
-          <p>{recipe.cookingTime} minutes</p>
-        </div>
-      )}
-
-      {recipe.dietaryLabels && recipe.dietaryLabels.length > 0 && (
-        <div className="mt-5">
-          <h2 className="text-xl font-semibold">Dietary Labels</h2>
-          <ul className="list-disc list-inside">
-            {recipe.dietaryLabels.map((diet, index) => (
-              <li key={index}>{diet}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className="mt-8 flex space-x-2">
-        <Link href={`/recipes/update/${recipe.id}`}>
-          <button className="bg-yellow-500 text-white px-4 py-2 rounded-lg">Update Recipe</button>
-        </Link>
-        <button className="bg-red-500 text-white px-4 py-2 rounded-lg" onClick={() => onDelete()}>
-          Delete Recipe
-        </button>
-      </div>
-
-      <div className="mt-5">
-        <Link href="/recipes?tab=custom">← Back to Recipes</Link>
-      </div>
-    </div>
+        <SectionTitle>Instructions</SectionTitle>
+        <Instructions>{recipe?.instructions}</Instructions>
+      </RecipeContent>
+    </>
   )
 }
 

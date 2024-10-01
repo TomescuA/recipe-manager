@@ -1,6 +1,15 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import {
+  CardContainer,
+  RecipeImage,
+  Title,
+  Description,
+  ButtonContainer,
+} from './RecipeCard.styles'
+
+import Button from '@/app/_components/Button'
+import { useRouter } from 'next/navigation'
 
 interface RecipeCardProps {
   recipe: any
@@ -17,81 +26,73 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   onToggleFavorite,
   isFavorite,
 }) => {
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    const route = isCustom ? `/recipes/custom/${recipe.id}` : `/recipes/external/${recipe.id}`
+    router.push(route)
+  }
   return (
-    <div className="border rounded-xl p-5 hover:shadow-lg transition relative">
+    <CardContainer onClick={handleCardClick}>
       {recipe.image && (
-        <Image
+        <RecipeImage
           src={recipe.image}
           alt={recipe.title}
           width={300}
           height={200}
-          className="object-cover rounded-lg"
           unoptimized={isCustom}
         />
       )}
 
-      <h3 className="text-xl mt-3 font-bold">{recipe.title}</h3>
+      <Title>{recipe.title}</Title>
 
-      {isCustom ? (
-        <p className="mt-2">
-          {recipe.description.substring(0, 100)}
-          {recipe.description.length > 100 && '...'}
-        </p>
-      ) : (
-        <p className="mt-2">
-          {recipe.summary?.replace(/<[^>]*>?/gm, '').substring(0, 100)}
-          {recipe.summary && recipe.summary.length > 100 && '...'}
-        </p>
-      )}
+      <Description>
+        {isCustom
+          ? `${recipe.description.substring(0, 100)}${recipe.description.length > 100 ? '...' : ''}`
+          : `${recipe.summary?.replace(/<[^>]*>?/gm, '').substring(0, 100)}${
+              recipe.summary && recipe.summary.length > 100 ? '...' : ''
+            }`}
+      </Description>
 
-      {isCustom && recipe.dietaryLabels && recipe.dietaryLabels.length > 0 && (
-        <div className="mt-3">
-          <h4 className="font-semibold">Dietary Labels:</h4>
-          <ul className="list-disc list-inside">
-            {recipe.dietaryLabels.map((label: string, index: number) => (
-              <li key={index}>{label}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className="mt-4 flex space-x-2">
-        <Link
-          href={isCustom ? `/recipes/custom/${recipe.id}` : `/recipes/external/${recipe.id}`}
-          className="text-blue-500 hover:underline"
-        >
-          View Details
-        </Link>
-
+      <ButtonContainer>
         {isCustom && (
           <>
-            <Link
-              href={`/recipes/custom/update/${recipe.id}`}
-              className="text-green-500 hover:underline"
+            <Button
+              onClick={(e) => {
+                e.stopPropagation()
+                router.push(`/recipes/custom/update/${recipe.id}`)
+              }}
+              variant="outline"
             >
-              Update Recipe
-            </Link>
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded-lg"
-              onClick={() => onDelete && onDelete(recipe.id)}
+              Update
+            </Button>
+            <Button
+              color="danger"
+              variant="outline"
+              onClick={(e: any) => {
+                e.stopPropagation()
+                onDelete && onDelete(recipe.id)
+              }}
             >
-              Delete Recipe
-            </button>
+              Delete
+            </Button>
           </>
         )}
 
         {!isCustom && onToggleFavorite && (
-          <button
-            className={`px-4 py-2 rounded-lg ${
-              isFavorite ? 'bg-red-500' : 'bg-green-500'
-            } text-white`}
-            onClick={() => onToggleFavorite(recipe)}
+          <Button
+            variant="outline"
+            color={isFavorite ? 'danger' : 'secondary'}
+            onClick={(e: any) => {
+              e.stopPropagation()
+              onToggleFavorite(recipe)
+            }}
           >
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-          </button>
+          </Button>
         )}
-      </div>
-    </div>
+      </ButtonContainer>
+    </CardContainer>
   )
 }
 

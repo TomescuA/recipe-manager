@@ -4,6 +4,11 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import RecipeCard from '@/app/recipes/_components/RecipeCard'
+import { Grid } from '@/app/_components/styles/Grid.styles'
+import { RecipeContainer, TopContainer } from '../external/External.styles'
+import Button from '@/app/_components/Button'
+import styled from 'styled-components'
+import Hero from '@/app/_components/Hero'
 
 interface CustomRecipe {
   id: string
@@ -12,6 +17,21 @@ interface CustomRecipe {
   image: string | null
   dietaryLabels: string[]
 }
+
+const NoRecipesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+  flex-direction: column;
+  p {
+    margin-bottom: 1rem;
+  }
+`
+const RecipesMainContainer = styled.div`
+  margin-top: 2rem;
+`
 
 const CustomRecipesList: React.FC = () => {
   const [customRecipes, setCustomRecipes] = useState<CustomRecipe[]>([])
@@ -40,24 +60,32 @@ const CustomRecipesList: React.FC = () => {
   }
 
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div className="col-span-full mb-4">
-        <Link href="/recipes/custom/create">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">Add Recipe</button>
-        </Link>
-      </div>
+    <RecipeContainer>
+      <TopContainer>
+        {customRecipes.length > 0 && (
+          <Button>
+            <Link href="/recipes/custom/create">Add Recipe</Link>
+          </Button>
+        )}
+      </TopContainer>
 
-      {customRecipes.length > 0 ? (
-        customRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} onDelete={handleDelete} isCustom={true} />
-        ))
-      ) : (
-        <div className="col-span-full text-center">
-          {' '}
-          <p>No custom recipes found. Add your own recipes!</p>
-        </div>
-      )}
-    </div>
+      <RecipesMainContainer>
+        {customRecipes.length > 0 ? (
+          <Grid>
+            {customRecipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} onDelete={handleDelete} isCustom={true} />
+            ))}
+          </Grid>
+        ) : (
+          <NoRecipesContainer>
+            <p>No custom recipes found. Add your own recipes!</p>
+            <Button>
+              <Link href="/recipes/custom/create">Add Recipe</Link>
+            </Button>
+          </NoRecipesContainer>
+        )}
+      </RecipesMainContainer>
+    </RecipeContainer>
   )
 }
 

@@ -3,6 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeForm, { type FormValues } from '@/app/recipes/_components/ManageRecipesForm'
+import {
+  InnerContainer,
+  OuterContainer,
+  Title,
+} from '@/app/recipes/custom/create/CreateRecipe.styles'
 
 interface Recipe extends FormValues {
   id: string
@@ -71,10 +76,12 @@ const UpdateRecipePage: React.FC<UpdateRecipePageProps> = ({ params }) => {
   }
 
   return (
-    <div>
-      <h1>Update Recipe</h1>
-      <RecipeForm initialValues={initialData} onSubmit={handleUpdate} />
-    </div>
+    <OuterContainer>
+      <InnerContainer>
+        <Title>Update Recipe</Title>
+        <RecipeForm initialValues={initialData} onSubmit={handleUpdate} />
+      </InnerContainer>
+    </OuterContainer>
   )
 }
 

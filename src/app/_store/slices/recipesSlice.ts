@@ -22,7 +22,7 @@ export const fetchRecipes = createAsyncThunk<
   try {
     const queryString = new URLSearchParams({
       query,
-      number: '50',
+      number: '10',
       addRecipeInformation: 'true',
     }).toString()
     const response = await fetch(`/api/recipes-proxy?${queryString}`)

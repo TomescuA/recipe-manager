@@ -8,12 +8,14 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const params = new URLSearchParams()
     params.set('apiKey', process.env.NEXT_PUBLIC_API_KEY || '')
     params.set('addRecipeInformation', 'true')
-    ;['query', 'diet', 'number'].forEach((key) => {
+    params.set('number', '10')
+    ;['query', 'diet', 'includeIngredients'].forEach((key) => {
       const value = searchParams.get(key)
       if (value) {
         params.set(key, value)
       }
     })
+    params.set('offset', '0')
 
     const requestUrl = `${apiUrl}/recipes/complexSearch?${params.toString()}`
 
@@ -31,6 +33,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     const data = await responseRecipes.json()
+
+    console.log('API Proxy Response:', data)
 
     return NextResponse.json(data, {
       status: 200,

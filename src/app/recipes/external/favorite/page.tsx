@@ -5,6 +5,25 @@ import RecipeCard from '@/app/recipes/_components/RecipeCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/app/_store/rootReducer'
 import { removeFavorite } from '@/app/_store/slices/favoriteReducer'
+import { Grid } from '@/app/_components/styles/Grid.styles'
+import { RecipeContainer } from '@/app/recipes/external/External.styles'
+import styled from 'styled-components'
+import Hero from '@/app/_components/Hero'
+
+const NoRecipesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+  flex-direction: column;
+  p {
+    margin-bottom: 1rem;
+  }
+`
+const RecipesMainContainer = styled.div`
+  margin-top: 2rem;
+`
 
 const FavoritesList: React.FC = () => {
   const dispatch = useDispatch()
@@ -16,24 +35,28 @@ const FavoritesList: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-5">My Favorites</h1>
-      {favorites.length > 0 ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {favorites.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              isCustom={false}
-              isFavorite={true}
-              onToggleFavorite={onToggleFavorite}
-            />
-          ))}
-        </div>
-      ) : (
-        <p>You have no favorite recipes yet.</p>
-      )}
-    </div>
+    <RecipeContainer>
+      <Hero title="My Favorites Recieps" />
+      <RecipesMainContainer>
+        {favorites.length > 0 ? (
+          <Grid>
+            {favorites.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                isFavorite={true}
+                onToggleFavorite={onToggleFavorite}
+                isCustom={false}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <NoRecipesContainer>
+            <p>No custom recipes found. Add your own recipes!</p>
+          </NoRecipesContainer>
+        )}
+      </RecipesMainContainer>
+    </RecipeContainer>
   )
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { fetchRecipeDetails } from './api'
 import { fetchRecipesList } from '@/app/recipes/api'
+import DetailsComponent from './DetailsComponent'
 
 export async function generateStaticParams(): Promise<Array<{ id: string }>> {
   const recipes = await fetchRecipesList()
@@ -15,36 +16,7 @@ export default async function RecipeDetailsPage({
   const recipeId = params.id
   const recipe: any = await fetchRecipeDetails(recipeId)
 
-  if (recipe === null || recipe === undefined) {
-    return <div>Recipe not found.</div>
-  }
-
   console.log('recipe inside the external id', recipe)
 
-  return (
-    <div className="recipe-details">
-      <h1>{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} width={300} height={200} />
-      <p>{recipe.summary.replace(/<[^>]*>?/gm, '')}</p>
-
-      <h2>Ingredients</h2>
-      <ul>
-        {recipe.extendedIngredients.map((ingredient: any) => (
-          <li key={ingredient.id}>{ingredient.original}</li>
-        ))}
-      </ul>
-
-      <h2>Instructions</h2>
-      <p>{recipe.instructions}</p>
-      <h2>Cooking time</h2>
-      <p>{recipe.readyInMinutes} minutes</p>
-
-      <h2>Dietary labels</h2>
-      <ul>
-        {recipe.diets.map((diet: string) => (
-          <li key={diet}>{diet}</li>
-        ))}
-      </ul>
-    </div>
-  )
+  return <DetailsComponent recipe={recipe} />
 }

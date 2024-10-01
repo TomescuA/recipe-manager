@@ -1,9 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage, FormikProps } from 'formik'
+import { Formik, Form, FormikProps } from 'formik'
 import * as Yup from 'yup'
 import Resizer from 'react-image-file-resizer'
+import FormikInput from '@/app/_components/FormikInput'
+import UploadImage from '@/app/_components/UploadImage'
+import FormikSelect from '@/app/_components/FormikSelect'
+import Button from '@/app/_components/Button'
 
 export interface FormValues {
   title: string
@@ -42,13 +46,15 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
       .max(100, 'Title must be 100 characters or less')
       .required('Title is required'),
     image: Yup.string().required('Image is required'),
+    instructions: Yup.string()
+      .required('Instructions are required')
+      .max(500, 'Instructions must be 1000 characters or less'),
     description: Yup.string()
       .max(500, 'Description must be 500 characters or less')
       .required('Description is required'),
     ingredients: Yup.string().required('Ingredients are required'),
-    dietaryLabels: Yup.array()
-      .min(1, 'Select at least one dietary label')
-      .required('At least one dietary label is required'),
+    cookingTime: Yup.number().required('Cooking time is required'),
+    dietaryLabels: Yup.string().required('Dietary label is required'),
   })
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: any) => {
@@ -95,53 +101,55 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
         const { setFieldValue, values } = formikProps
         return (
           <Form>
-            <div>
-              <label htmlFor="title">Title</label>
-              <Field name="title" type="text" />
-              <ErrorMessage name="title" component="div" />
-            </div>
+            <FormikInput
+              label="Title"
+              name="title"
+              type="text"
+              placeholder="Enter the recipe title"
+            />
 
-            <div>
-              <label htmlFor="image">Image</label>
-              <input
-                id="image"
-                name="image"
-                type="file"
-                accept="image/*"
-                onChange={(event) => handleImageUpload(event, setFieldValue)}
-              />
+            <FormikInput
+              label="Instrcutions"
+              name="instructions"
+              type="text"
+              placeholder="Enter the recipe instructions"
+            />
+            <FormikInput
+              label="Cooking Time"
+              name="cookingTime"
+              type="number"
+              placeholder="Enter the recipe cooking time"
+            />
 
-              {values.image && <img src={values.image} alt="Preview" width="200" />}
-              <ErrorMessage name="image" component="div" />
-            </div>
+            <FormikInput
+              label="Description"
+              name="description"
+              as="textarea"
+              placeholder="Enter the recipe description"
+            />
 
-            <div>
-              <label htmlFor="description">Description</label>
-              <Field name="description" as="textarea" />
-              <ErrorMessage name="description" component="div" />
-            </div>
+            <FormikInput
+              label="Ingredients"
+              name="ingredients"
+              as="textarea"
+              placeholder="Enter the ingredients"
+            />
 
-            <div>
-              <label htmlFor="ingredients">Ingredients</label>
-              <Field name="ingredients" as="textarea" />
-              <ErrorMessage name="ingredients" component="div" />
-            </div>
-
-            <div>
-              <label htmlFor="dietaryLabels">Dietary Labels</label>
-              <Field name="dietaryLabels" as="select" multiple={true} size={dietaryOptions.length}>
-                {dietaryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="dietaryLabels" component="div" />
-            </div>
-
-            <button type="submit" disabled={isLoading}>
+            <FormikSelect
+              label="Dietary Labels"
+              name="dietaryLabels"
+              options={dietaryOptions}
+              placeholder="Select a dietary label"
+            />
+            <UploadImage
+              label="Image"
+              name="image"
+              accept="image/*"
+              handleImageUpload={handleImageUpload}
+            />
+            <Button type="submit" color="primary" disabled={isLoading}>
               {isLoading ? 'Submitting...' : 'Submit'}
-            </button>
+            </Button>
           </Form>
         )
       }}

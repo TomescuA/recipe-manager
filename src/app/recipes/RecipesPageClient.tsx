@@ -6,8 +6,12 @@ import ExternalRecipesList from '@/app/recipes/external/page'
 import CustomRecipes from './custom/page'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch } from 'react-redux'
+import Tabs from '../_components/Tabs'
 // import { setSearchTerm, addDietaryFilter } from '@/app/_store/slices/searchSlice'
 // import { fetchRecipes, setRecipes } from '@/app/_store/slices/recipesSlice'
+import Hero from '@/app/_components/Hero'
+
+import { PageContainer } from '@/app/recipes/RecipePageClient.styles'
 
 interface RecipesPageClientProps {
   initialRecipes: any[]
@@ -30,29 +34,24 @@ const RecipesPageClient: React.FC<RecipesPageClientProps> = ({ initialRecipes })
   }
 
   return (
-    <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-10">Recipe List</h1>
-
-      <div className="tabs mb-8">
-        <button
-          className={`tab-button ${activeTab === 'external' ? 'active' : ''}`}
-          onClick={() => handleTabChange('external')}
-        >
-          API Recipes
-        </button>
-        <button
-          className={`tab-button ${activeTab === 'custom' ? 'active' : ''}`}
-          onClick={() => handleTabChange('custom')}
-        >
-          My Custom Recipes
-        </button>
-      </div>
+    <PageContainer>
+      <Hero
+        title="Discover Delicious Recipes"
+        subtitle=" Your journey to culinary creativity starts here. Explore external recipes or create your
+          own!"
+      >
+        <Tabs
+          tabs={['External Recipes', 'My Custom Recipes']}
+          activeTab={activeTab === 'external' ? 'External Recipes' : 'My Custom Recipes'}
+          onTabChange={(tab) => handleTabChange(tab === 'External Recipes' ? 'external' : 'custom')}
+        />
+      </Hero>
 
       <div className="recipes-content">
         {activeTab === 'external' && <ExternalRecipesList recipes={initialRecipes} />}
         {activeTab === 'custom' && <CustomRecipes />}
       </div>
-    </div>
+    </PageContainer>
   )
 }
 

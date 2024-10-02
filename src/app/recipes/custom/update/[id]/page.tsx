@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import RecipeForm, { type FormValues } from '@/app/recipes/_components/ManageRecipesForm'
+import RecipeForm, { FormValues } from '@/app/recipes/_components/ManageRecipesForm'
 import {
   InnerContainer,
   OuterContainer,

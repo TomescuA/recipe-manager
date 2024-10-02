@@ -89,7 +89,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               onToggleFavorite(recipe)
             }}
           >
-            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+            {isFavorite ? 'Unsave' : 'Save'}
           </Button>
         )}
       </ButtonContainer>

@@ -21,6 +21,5 @@ export const fetchRecipeDetails = async (id: string): Promise<Recipe> => {
     return recipeDetails
   } catch (error) {
     console.error(error)
-    return null
   }
 }

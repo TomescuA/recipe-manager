@@ -11,6 +11,8 @@ export const SearchInput = styled.input`
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.gray800};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   font-size: 1rem;
 
@@ -46,4 +48,10 @@ export const ErrorMessage = styled.div`
   color: ${({ theme }) => theme.colors.danger};
   margin-top: 0.5rem;
   font-size: 0.875rem;
+`
+export const LoadingMessage = styled.div`
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
 `

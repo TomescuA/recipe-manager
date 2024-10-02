@@ -43,6 +43,7 @@ export const RadioInput = styled.input`
   height: 1rem;
   cursor: pointer;
   accent-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
   margin-left: 0.5rem;
 
   @media ${({ theme }) => theme.breakpoints.xs} {

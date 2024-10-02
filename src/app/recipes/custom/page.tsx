@@ -11,6 +11,7 @@ import { deleteRecipe } from '@/app/_store/slices/customRecipesSlice'
 import { useAppDispatch } from '@/app/_store/store'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/_store/rootReducer'
+import { useRouter } from 'next/navigation'
 
 const NoRecipesContainer = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const RecipesMainContainer = styled.div`
 const CustomRecipesList: React.FC = () => {
   const dispatch = useAppDispatch()
   const customRecipes = useSelector((state: RootState) => state.customRecipes.recipes)
+  const router = useRouter()
 
   const handleDelete = (id: string) => {
     const confirmed = window.confirm('Are you sure you want to delete this recipe?')
@@ -42,9 +44,7 @@ const CustomRecipesList: React.FC = () => {
     <RecipeContainer>
       <TopContainer>
         {customRecipes.length > 0 && (
-          <Button>
-            <Link href="/recipes/custom/create">Add Recipe</Link>
-          </Button>
+          <Button onClick={() => router.push('/recipes/custom/create')}>Add Recipe</Button>
         )}
       </TopContainer>
 

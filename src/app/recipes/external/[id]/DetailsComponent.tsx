@@ -16,7 +16,6 @@ import Hero from '@/app/_components/Hero'
 import { Recipe, Ingredient } from '@/app/_utils/types'
 
 export default function DetailsComponent({ recipe }: { recipe: Recipe }) {
-  console.log('recipe in DetailsComponent', recipe)
   if (recipe === null || recipe === undefined) {
     return (
       <NotFoundContainer>

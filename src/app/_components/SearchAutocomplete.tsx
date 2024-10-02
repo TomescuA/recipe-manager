@@ -5,6 +5,7 @@ import {
   SuggestionsList,
   SuggestionItem,
   ErrorMessage,
+  LoadingMessage,
 } from '@/app/_components/styles/SearchAutocomplete.styles'
 
 interface SearchAutocompleteProps {
@@ -28,8 +29,6 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
 }) => {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
-
-  console.log('data search:', data)
 
   const handleSuggestionClick = (title: string) => {
     onSelectItem(title)
@@ -61,15 +60,18 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
       />
       {isSuggestionsOpen && data?.length > 0 && value !== '' && (
         <SuggestionsList>
-          {isLoading && <div>Loading suggestions...</div>}
-          {data.map((suggestion) => (
-            <SuggestionItem
-              key={suggestion.id}
-              onClick={() => handleSuggestionClick(suggestion.title)}
-            >
-              {suggestion.title}
-            </SuggestionItem>
-          ))}
+          {isLoading ? (
+            <LoadingMessage>Loading suggestions...</LoadingMessage>
+          ) : (
+            data.map((suggestion) => (
+              <SuggestionItem
+                key={suggestion.id}
+                onClick={() => handleSuggestionClick(suggestion.title)}
+              >
+                {suggestion.title}
+              </SuggestionItem>
+            ))
+          )}
         </SuggestionsList>
       )}
       {error && <ErrorMessage>{error}</ErrorMessage>}

@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Tabs from '../_components/Tabs'
 import Hero from '@/app/_components/Hero'
 
-import { PageContainer } from '@/app/recipes/RecipePageClient.styles'
+import { PageContainer, RecipesContent } from '@/app/recipes/RecipePageClient.styles'
 import { Recipe } from '@/app/_utils/types'
 
 interface RecipesPageClientProps {
@@ -43,10 +43,10 @@ const RecipesPageClient: React.FC<RecipesPageClientProps> = ({ initialRecipes })
         />
       </Hero>
 
-      <div className="recipes-content">
+      <RecipesContent>
         {activeTab === 'external' && <ExternalRecipesList recipes={initialRecipes} />}
         {activeTab === 'custom' && <CustomRecipes />}
-      </div>
+      </RecipesContent>
     </PageContainer>
   )
 }

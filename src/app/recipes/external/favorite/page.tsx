@@ -24,6 +24,10 @@ const NoRecipesContainer = styled.div`
 `
 const RecipesMainContainer = styled.div`
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `
 
 const FavoritesList: React.FC = () => {

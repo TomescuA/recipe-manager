@@ -41,8 +41,8 @@ export default function DetailsComponent({ recipe }: { recipe: Recipe }) {
 
         <SectionTitle>Ingredients</SectionTitle>
         <IngredientsList>
-          {recipe.extendedIngredients.map((ingredient: Ingredient) => (
-            <li key={ingredient?.id}>{ingredient?.original}</li>
+          {recipe?.extendedIngredients?.map((ingredient: Ingredient) => (
+            <li key={ingredient.id}>{ingredient.original}</li>
           ))}
         </IngredientsList>
 

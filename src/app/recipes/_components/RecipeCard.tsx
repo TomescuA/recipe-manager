@@ -49,7 +49,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
 
       <Description>
         {isCustom
-          ? `${recipe.description.substring(0, 100)}${recipe.description.length > 100 ? '...' : ''}`
+          ? `${(recipe?.description ?? '').substring(0, 100)}${(recipe?.description?.length ?? 0) > 100 ? '...' : ''}`
           : `${recipe.summary?.replace(/<[^>]*>?/gm, '').substring(0, 100)}${
               recipe.summary && recipe.summary.length > 100 ? '...' : ''
             }`}

@@ -97,6 +97,6 @@ export interface Recipe {
   vegan?: boolean
   vegetarian?: boolean
   description?: string
-  extendedIngredients?: Ingredient[] | string[]
+  extendedIngredients?: Ingredient[]
   instructions?: string
 }

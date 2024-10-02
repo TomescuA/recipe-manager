@@ -1,14 +1,10 @@
-// app/recipes/RecipesPageClient.tsx
 'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import ExternalRecipesList from '@/app/recipes/external/page'
 import CustomRecipes from './custom/page'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useDispatch } from 'react-redux'
 import Tabs from '../_components/Tabs'
-// import { setSearchTerm, addDietaryFilter } from '@/app/_store/slices/searchSlice'
-// import { fetchRecipes, setRecipes } from '@/app/_store/slices/recipesSlice'
 import Hero from '@/app/_components/Hero'
 
 import { PageContainer } from '@/app/recipes/RecipePageClient.styles'
@@ -22,7 +18,6 @@ const allowedTabs = ['external', 'custom']
 const RecipesPageClient: React.FC<RecipesPageClientProps> = ({ initialRecipes }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const dispatch = useDispatch()
 
   const tabFromUrl = searchParams.get('tab')
   const activeTab = allowedTabs.includes(tabFromUrl ?? '') ? tabFromUrl : 'external'

@@ -1,3 +1,9 @@
+// This is a custom StoreProvider component used to wrap the application in a Redux provider.
+// The purpose of this component is to manage the Redux store and integrate persistence via Redux Persist.
+
+// The use of `useRef` here allows us to persist the store and persistor instances across renders,
+// avoiding unnecessary reinitialization. This ensures better performance and stability across the app.
+
 'use client'
 import { useRef } from 'react'
 import { Provider } from 'react-redux'

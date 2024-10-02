@@ -1,27 +1,17 @@
 import styled from 'styled-components'
 
-export const CheckboxGroupContainer = styled.div`
+export const RadioGroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
 
   @media ${({ theme }) => theme.breakpoints.xs} {
     align-items: flex-start;
+    margin-bottom: 0;
   }
 `
 
-export const GroupLabel = styled.h4`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.gray800};
-  margin-bottom: 0.75rem;
-
-  @media ${({ theme }) => theme.breakpoints.xs} {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-`
-
-export const CheckboxWrapper = styled.div`
+export const RadioWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -31,7 +21,7 @@ export const CheckboxWrapper = styled.div`
   }
 `
 
-export const CheckboxLabel = styled.label`
+export const RadioLabel = styled.label`
   display: flex;
   align-items: center;
   font-size: 1rem;
@@ -48,7 +38,7 @@ export const CheckboxLabel = styled.label`
   }
 `
 
-export const CheckboxInput = styled.input`
+export const RadioInput = styled.input`
   width: 1rem;
   height: 1rem;
   cursor: pointer;

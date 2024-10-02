@@ -3,8 +3,8 @@ import styled from 'styled-components'
 export const SearchContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 100%;
-  margin-bottom: 1rem;
+  max-width: 500px;
+  margin-right: 1rem;
 `
 
 export const SearchInput = styled.input`
@@ -41,4 +41,9 @@ export const SuggestionItem = styled.li`
   &:hover {
     background-color: ${({ theme }) => theme.colors.gray100};
   }
+`
+export const ErrorMessage = styled.div`
+  color: ${({ theme }) => theme.colors.danger};
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
 `

@@ -2,7 +2,8 @@ import styled from 'styled-components'
 
 export const RecipeContainer = styled.div`
   position: relative;
-  // padding: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     padding: 1.5rem;
@@ -75,13 +76,22 @@ export const TopContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   margin-top: 1rem;
+  width: 100%;
 `
 
 export const FiltersContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    flex-direction: column;
+    margin-top: 1rem;
+    justify-content: center;
+    width: 100%;
+  }
 `
 export const CenteredContainer = styled.div`
   display: flex;
@@ -90,4 +100,12 @@ export const CenteredContainer = styled.div`
   text-align: center;
   margin-top: 2rem;
   color: ${({ theme }) => theme.colors.danger};
+`
+export const SearchContainer = styled.div`
+  max-width: 500px;
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `

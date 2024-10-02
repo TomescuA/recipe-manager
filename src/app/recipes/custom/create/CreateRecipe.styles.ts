@@ -5,40 +5,26 @@ export const OuterContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.gray200};
 
   @media ${({ theme }) => theme.breakpoints.xs} {
-    padding: 1.5rem 1.5rem;
+    padding: 0;
   }
 `
 
 export const InnerContainer = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: ${({ theme }) => theme.borderRadius.large};
-  box-shadow: ${({ theme }) => theme.shadows.hover};
-  padding: 2rem;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  max-width: 1200px;
+  margin: 0 4rem;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     padding: 2.5rem;
   }
 
   @media ${({ theme }) => theme.breakpoints.lg} {
-    padding: 3rem;
+    padding: 0 2rem;
   }
 `
 
-export const Title = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  color: ${({ theme }) => theme.colors.gray800};
-  letter-spacing: 0.02em;
-
-  @media ${({ theme }) => theme.breakpoints.sm} {
-    font-size: 2rem;
-  }
-
-  @media ${({ theme }) => theme.breakpoints.lg} {
-    font-size: 2.5rem;
-  }
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
 `

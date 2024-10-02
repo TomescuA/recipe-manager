@@ -13,19 +13,13 @@ const initialState: RecipesState = {
   error: null,
 }
 
-// Async thunk to fetch
 export const fetchRecipes = createAsyncThunk<
   any[],
-  { query: string; number: string },
+  { query: string },
   { state: RootState; rejectValue: string }
 >('recipes/fetchRecipes', async ({ query }, { getState, rejectWithValue }) => {
   try {
-    const queryString = new URLSearchParams({
-      query,
-      number: '10',
-      addRecipeInformation: 'true',
-    }).toString()
-    const response = await fetch(`/api/recipes-proxy?${queryString}`)
+    const response = await fetch(`/api/recipes-proxy?${query}`)
 
     if (!response.ok) {
       throw new Error('Failed to fetch recipes')

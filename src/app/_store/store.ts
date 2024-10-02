@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['favorite'],
+  whitelist: ['favorite', 'customRecipes'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

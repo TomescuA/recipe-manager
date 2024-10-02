@@ -6,9 +6,13 @@ import RecipeForm, { type FormValues } from '@/app/recipes/_components/ManageRec
 import {
   InnerContainer,
   OuterContainer,
-  Title,
+  Container,
 } from '@/app/recipes/custom/create/CreateRecipe.styles'
-
+import Hero from '@/app/_components/Hero'
+import { useSelector } from 'react-redux'
+import { updateRecipe } from '@/app/_store/slices/customRecipesSlice'
+import { RootState } from '@/app/_store/rootReducer'
+import { useAppDispatch } from '@/app/_store/store'
 interface Recipe extends FormValues {
   id: string
 }
@@ -19,56 +23,35 @@ interface UpdateRecipePageProps {
 
 const UpdateRecipePage: React.FC<UpdateRecipePageProps> = ({ params }) => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const { id } = params
+
+  const recipe = useSelector((state: RootState) =>
+    state.customRecipes.recipes.find((r) => r.id === id),
+  )
 
   const [initialData, setInitialData] = useState<FormValues | null>(null)
 
   useEffect(() => {
-    const storedRecipes = localStorage.getItem('customRecipes')
-    if (storedRecipes !== null) {
-      try {
-        const recipes: Recipe[] = JSON.parse(storedRecipes)
-        const recipe = recipes.find((r) => r.id === id)
-        if (recipe) {
-          const formValues: FormValues = {
-            title: recipe.title,
-            image: recipe.image || '',
-            description: recipe.description,
-            ingredients: recipe.ingredients || '',
-            dietaryLabels: recipe.dietaryLabels,
-          }
-          setInitialData(formValues)
-        } else {
-          console.error('Recipe not found')
-          router.push('/recipes')
-        }
-      } catch (error) {
-        console.error('Failed to parse recipes from localStorage:', error)
-      }
+    if (recipe) {
+      setInitialData({
+        title: recipe.title,
+        image: recipe.image,
+        cookingTime: recipe.cookingTime,
+        description: recipe.description,
+        ingredients: recipe.ingredients,
+        dietaryLabels: recipe.dietaryLabels,
+        instructions: recipe.instructions,
+      })
+    } else {
+      console.error('Recipe not found')
+      router.push('/recipes')
     }
-  }, [id, router])
+  }, [id, recipe, router])
 
   const handleUpdate = (updatedValues: FormValues) => {
-    const storedRecipes = localStorage.getItem('customRecipes')
-    if (storedRecipes !== null) {
-      try {
-        const recipes: Recipe[] = JSON.parse(storedRecipes)
-        const recipeIndex = recipes.findIndex((r) => r.id === id)
-        if (recipeIndex !== -1) {
-          const updatedRecipe: Recipe = {
-            id: id,
-            ...updatedValues,
-          }
-          recipes[recipeIndex] = updatedRecipe
-          localStorage.setItem('customRecipes', JSON.stringify(recipes))
-          router.push('/recipes')
-        } else {
-          console.error('Recipe not found in the list')
-        }
-      } catch (error) {
-        console.error('Failed to update recipe:', error)
-      }
-    }
+    dispatch(updateRecipe({ id, ...updatedValues }))
+    router.push('/recipes?tab=custom')
   }
 
   if (!initialData) {
@@ -77,10 +60,12 @@ const UpdateRecipePage: React.FC<UpdateRecipePageProps> = ({ params }) => {
 
   return (
     <OuterContainer>
-      <InnerContainer>
-        <Title>Update Recipe</Title>
-        <RecipeForm initialValues={initialData} onSubmit={handleUpdate} />
-      </InnerContainer>
+      <Hero title={`Update "${initialData?.title}" Recipe`} />
+      <Container>
+        <InnerContainer>
+          <RecipeForm initialValues={initialData} onSubmit={handleUpdate} />
+        </InnerContainer>
+      </Container>
     </OuterContainer>
   )
 }

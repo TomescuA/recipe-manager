@@ -3,41 +3,31 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeForm, { type FormValues } from '@/app/recipes/_components/ManageRecipesForm'
-import { OuterContainer, InnerContainer, Title } from './CreateRecipe.styles'
+import { OuterContainer, InnerContainer, Container } from './CreateRecipe.styles'
 import Hero from '@/app/_components/Hero'
+import { useAppDispatch } from '@/app/_store/store'
+import { createRecipe } from '@/app/_store/slices/customRecipesSlice'
 
 const NewRecipePage: React.FC = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const handleSubmit = (values: FormValues): void => {
-    const storedRecipes = localStorage.getItem('customRecipes')
-    const customRecipes = storedRecipes ? JSON.parse(storedRecipes) : []
-
-    const newRecipe = {
-      id: Date.now().toString(),
-      ...values,
-    }
-
-    const updatedRecipes = [...customRecipes, newRecipe]
-
-    try {
-      localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes))
-      router.push('/recipes?tab=custom')
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-        console.error('Cannot save recipe: Storage limit exceeded.')
-      } else {
-        console.error('Error saving recipe:', error)
-      }
-    }
+    dispatch(createRecipe(values))
+    router.push('/recipes?tab=custom')
   }
 
   return (
     <OuterContainer>
-      <Hero title="Add a New Recipe" />
-      <InnerContainer>
-        <RecipeForm onSubmit={handleSubmit} isLoading={false} />
-      </InnerContainer>
+      <Hero
+        title="Create Your Culinary Masterpiece"
+        subtitle="Bring your favorite dish to life and inspire others with your creativity."
+      />
+      <Container>
+        <InnerContainer>
+          <RecipeForm onSubmit={handleSubmit} isLoading={false} />
+        </InnerContainer>
+      </Container>
     </OuterContainer>
   )
 }

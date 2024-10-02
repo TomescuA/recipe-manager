@@ -8,6 +8,26 @@ import FormikInput from '@/app/_components/FormikInput'
 import UploadImage from '@/app/_components/UploadImage'
 import FormikSelect from '@/app/_components/FormikSelect'
 import Button from '@/app/_components/Button'
+import styled from 'styled-components'
+
+const FormGrid = styled.div`
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+const FullWidthGrid = styled.div`
+  display: flex;
+  // justify-content: flex-end;
+  justify-content: center;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+`
 
 export interface FormValues {
   title: string
@@ -15,6 +35,8 @@ export interface FormValues {
   description: string
   ingredients: string
   dietaryLabels: string[]
+  instructions: string
+  cookingTime: number
 }
 
 interface ManageRecipesProps {
@@ -92,6 +114,8 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
           description: '',
           ingredients: '',
           dietaryLabels: [],
+          instructions: '',
+          cookingTime: 0,
         }
       }
       validationSchema={validationSchema}
@@ -107,19 +131,36 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
               type="text"
               placeholder="Enter the recipe title"
             />
+            <FormGrid>
+              <FormikInput
+                label="Instrcutions"
+                name="instructions"
+                type="text"
+                placeholder="Enter the recipe instructions"
+              />
 
-            <FormikInput
-              label="Instrcutions"
-              name="instructions"
-              type="text"
-              placeholder="Enter the recipe instructions"
-            />
-            <FormikInput
-              label="Cooking Time"
-              name="cookingTime"
-              type="number"
-              placeholder="Enter the recipe cooking time"
-            />
+              <FormikInput
+                label="Ingredients"
+                name="ingredients"
+                as="textarea"
+                placeholder="Enter the ingredients"
+              />
+            </FormGrid>
+
+            <FormGrid>
+              <FormikInput
+                label="Cooking Time"
+                name="cookingTime"
+                type="number"
+                placeholder="Enter the recipe cooking time"
+              />
+              <FormikSelect
+                label="Dietary Labels"
+                name="dietaryLabels"
+                options={dietaryOptions}
+                placeholder="Select a dietary label"
+              />
+            </FormGrid>
 
             <FormikInput
               label="Description"
@@ -127,29 +168,17 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
               as="textarea"
               placeholder="Enter the recipe description"
             />
-
-            <FormikInput
-              label="Ingredients"
-              name="ingredients"
-              as="textarea"
-              placeholder="Enter the ingredients"
-            />
-
-            <FormikSelect
-              label="Dietary Labels"
-              name="dietaryLabels"
-              options={dietaryOptions}
-              placeholder="Select a dietary label"
-            />
             <UploadImage
               label="Image"
               name="image"
               accept="image/*"
               handleImageUpload={handleImageUpload}
             />
-            <Button type="submit" color="primary" disabled={isLoading}>
-              {isLoading ? 'Submitting...' : 'Submit'}
-            </Button>
+            <FullWidthGrid>
+              <Button type="submit" color="primary" disabled={isLoading}>
+                {isLoading ? 'Submitting...' : 'Submit Recipe'}
+              </Button>
+            </FullWidthGrid>
           </Form>
         )
       }}

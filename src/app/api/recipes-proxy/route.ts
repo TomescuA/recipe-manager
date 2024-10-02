@@ -36,6 +36,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     console.log('API Proxy Response:', data)
 
+    console.log(data)
+
     return NextResponse.json(data, {
       status: 200,
       headers: {

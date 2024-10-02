@@ -82,10 +82,8 @@ The app is organized into several key directories, each with a specific role. He
     Approach:
      - Recipe detail pages are generated at build time using generateStaticParams. The data is fetched once during the build, and the pages are cached for fast delivery without needing to fetch new data on every request. This ensures high performance and is well-suited for content that doesn’t change frequently.
 
-    SSR is applied to pages that require real-time data or reflect user input, such as the recipe creation, update pages, or pages with inputs functionality. These pages need to be responsive to user actions and provide up-to-date information on each request.
+    SSR is applied to pages that require real-time data or reflect user input. These pages need to be responsive to user actions and provide up-to-date information on each request.
 
     Summary:
-     - I used SSG for pages that can be statically generated and served efficiently without frequent updates, such as recipe detail pages.
+     - I used SSG for pages that can be statically generated and served efficiently without frequent updates, such as recipe detail pages.(one of the resouns why i use proxy)
     - And I used SSR  for pages that involve dynamic data or user interactions, like recipe list  ensuring the content remains fresh and interactive.
-
-## Deploy on Vercel

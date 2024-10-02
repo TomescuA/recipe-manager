@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import RecipeForm, { FormValues } from '@/app/recipes/_components/ManageRecipesForm'
+import RecipeForm from '@/app/recipes/_components/ManageRecipesForm'
 import {
   InnerContainer,
   OuterContainer,
@@ -13,9 +13,7 @@ import { useSelector } from 'react-redux'
 import { updateRecipe } from '@/app/_store/slices/customRecipesSlice'
 import { RootState } from '@/app/_store/rootReducer'
 import { useAppDispatch } from '@/app/_store/store'
-interface Recipe extends FormValues {
-  id: string
-}
+import { FormValues } from '@/app/_utils/types'
 
 interface UpdateRecipePageProps {
   params: { id: string }

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Recipe } from '@/app/_utils/types'
 
 interface FavoriteState {
-  elements: any[]
+  elements: Recipe[]
 }
 
 const initialState: FavoriteState = {
@@ -12,13 +13,13 @@ const favoriteSlice = createSlice({
   name: 'favorite',
   initialState,
   reducers: {
-    addFavorite(state, action: PayloadAction<any>) {
+    addFavorite(state, action: PayloadAction<Recipe>) {
       const isAlreadyFavorite = state.elements.some((fav) => fav.id === action.payload.id)
       if (!isAlreadyFavorite) {
         state.elements.push(action.payload)
       }
     },
-    removeFavorite(state, action: PayloadAction<any>) {
+    removeFavorite(state, action: PayloadAction<{ id: string }>) {
       state.elements = state.elements.filter((fav) => fav.id !== action.payload.id)
     },
   },

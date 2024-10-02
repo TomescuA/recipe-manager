@@ -21,6 +21,7 @@ import { fetchRecipes } from '@/app/_store/slices/recipesSlice'
 import RecipeCard from '@/app/recipes/_components/RecipeCard'
 import { RootState } from '@/app/_store/rootReducer'
 import { addFavorite, removeFavorite } from '@/app/_store/slices/favoriteReducer'
+import { Recipe } from '@/app/_utils/types'
 
 const dietaryOptions = [
   { label: 'Vegetarian', value: 'vegetarian' },
@@ -31,7 +32,7 @@ const dietaryOptions = [
   { label: 'Low Sugar', value: 'lowSugar' },
 ]
 
-const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) => {
+const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: Recipe[] }) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -70,7 +71,7 @@ const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) =>
   }
 
   const handleSearchSubmit = () => {
-    let params = new URLSearchParams(Array.from(searchParams.entries()))
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
     params.set('query', searchValue)
 
     if (selectedDiet) {
@@ -83,7 +84,7 @@ const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) =>
   }
 
   const handleDietaryChange = (value: string) => {
-    let params = new URLSearchParams(Array.from(searchParams.entries()))
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
     params.set('diet', value)
     router.push(`?${params.toString()}`)
     setSelectedDiet(value)
@@ -94,7 +95,7 @@ const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) =>
     dispatch(clear())
   }
 
-  const onToggleFavorite = (recipe: any) => {
+  const onToggleFavorite = (recipe: Recipe) => {
     const isAlreadyFavorite = favorites.some((fav) => fav.id === recipe.id)
 
     if (isAlreadyFavorite) {
@@ -150,7 +151,7 @@ const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) =>
       )}
 
       <Grid>
-        {dataRecipes?.map((recipe: any) => {
+        {dataRecipes?.map((recipe: Recipe) => {
           const isFavorite = favorites.some((fav) => fav.id === recipe.id)
           return (
             <RecipeCard

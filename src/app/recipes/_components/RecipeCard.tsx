@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import {
   CardContainer,
   RecipeImage,
@@ -10,13 +9,15 @@ import {
 
 import Button from '@/app/_components/Button'
 import { useRouter } from 'next/navigation'
+import { Recipe } from '@/app/_utils/types'
 
 interface RecipeCardProps {
-  recipe: any
+  recipe: Recipe
   isCustom: boolean
   onDelete?: (id: string) => void
-  onToggleFavorite?: (recipe: any) => void
+  onToggleFavorite?: (recipe: Recipe) => void
   isFavorite?: boolean
+  description?: string
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({
@@ -59,7 +60,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <>
             <Button
               onClick={(e) => {
-                e.stopPropagation()
+                ;(e as React.MouseEvent).stopPropagation()
                 router.push(`/recipes/custom/update/${recipe.id}`)
               }}
               variant="outline"
@@ -69,8 +70,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             <Button
               color="danger"
               variant="outline"
-              onClick={(e: any) => {
-                e.stopPropagation()
+              onClick={(e) => {
+                ;(e as React.MouseEvent).stopPropagation()
                 onDelete && onDelete(recipe.id)
               }}
             >
@@ -83,8 +84,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <Button
             variant="outline"
             color={isFavorite ? 'danger' : 'secondary'}
-            onClick={(e: any) => {
-              e.stopPropagation()
+            onClick={(e) => {
+              ;(e as React.MouseEvent).stopPropagation()
               onToggleFavorite(recipe)
             }}
           >

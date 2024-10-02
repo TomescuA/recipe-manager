@@ -1,5 +1,15 @@
 import React from 'react'
-import { StyledButton, ButtonProps } from '@/app/_components/styles/Button.styles'
+import {
+  StyledButton,
+  ButtonProps as StyledButtonProps,
+} from '@/app/_components/styles/Button.styles'
+
+export interface ButtonProps extends StyledButtonProps {
+  children: React.ReactNode
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
+}
 
 const Button: React.FC<ButtonProps> = ({
   color = 'primary',

@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { Recipe } from '@/app/_utils/types'
 
 interface SearchState {
-  data: any[]
+  data: Recipe[]
   isLoading: boolean
   error: string | null
 }
@@ -13,7 +14,7 @@ const initialState: SearchState = {
 }
 
 export const fetchSuggestions = createAsyncThunk<
-  any[],
+  Recipe[],
   { query: string; number: string },
   { rejectValue: string }
 >('search/fetchSuggestions', async (params, { rejectWithValue }) => {
@@ -27,8 +28,11 @@ export const fetchSuggestions = createAsyncThunk<
 
     const data = await response.json()
     return data.results
-  } catch (error: any) {
-    return rejectWithValue(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message)
+    }
+    return rejectWithValue('An unknown error occurred')
   }
 })
 
@@ -47,7 +51,7 @@ const searchSlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchSuggestions.fulfilled, (state, action: PayloadAction<any[]>) => {
+      .addCase(fetchSuggestions.fulfilled, (state, action: PayloadAction<Recipe[]>) => {
         state.isLoading = false
         state.data = action.payload
       })

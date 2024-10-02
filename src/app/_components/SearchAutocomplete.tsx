@@ -29,6 +29,8 @@ const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
+  console.log('data search:', data)
+
   const handleSuggestionClick = (title: string) => {
     onSelectItem(title)
     setIsSuggestionsOpen(false)

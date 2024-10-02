@@ -13,8 +13,10 @@ import {
   BackLink,
 } from './details.styles'
 import Hero from '@/app/_components/Hero'
+import { Recipe, Ingredient } from '@/app/_utils/types'
 
-export default function DetailsComponent({ recipe }: { recipe: any }) {
+export default function DetailsComponent({ recipe }: { recipe: Recipe }) {
+  console.log('recipe in DetailsComponent', recipe)
   if (recipe === null || recipe === undefined) {
     return (
       <NotFoundContainer>
@@ -28,21 +30,19 @@ export default function DetailsComponent({ recipe }: { recipe: any }) {
       <Hero title={recipe.title} />
       <TopContainer>
         <DietaryLabelsList>
-          {recipe.diets.map((diet: string) => (
-            <li key={diet}>{diet}</li>
-          ))}
-          <li>{recipe.readyInMinutes} min</li>
+          {recipe.diets?.map((diet: string) => <li key={diet}>{diet}</li>)}
+          <li>{recipe?.readyInMinutes} min</li>
         </DietaryLabelsList>
       </TopContainer>
 
       <RecipeContent>
         <SectionTitle>Description</SectionTitle>
-        <p>{recipe.summary.replace(/<[^>]*>?/gm, '')}</p>
+        <p>{recipe?.summary?.replace(/<[^>]*>?/gm, '')}</p>
 
         <SectionTitle>Ingredients</SectionTitle>
         <IngredientsList>
-          {recipe.extendedIngredients.map((ingredient: any) => (
-            <li key={ingredient.id}>{ingredient.original}</li>
+          {recipe.extendedIngredients.map((ingredient: Ingredient) => (
+            <li key={ingredient?.id}>{ingredient?.original}</li>
           ))}
         </IngredientsList>
 

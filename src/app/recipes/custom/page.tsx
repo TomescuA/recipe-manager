@@ -12,14 +12,6 @@ import { useAppDispatch } from '@/app/_store/store'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/_store/rootReducer'
 
-interface CustomRecipe {
-  id: string
-  title: string
-  description: string
-  image: string | null
-  dietaryLabels: string[]
-}
-
 const NoRecipesContainer = styled.div`
   display: flex;
   justify-content: center;

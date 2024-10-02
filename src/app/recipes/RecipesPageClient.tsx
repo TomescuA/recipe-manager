@@ -1,16 +1,17 @@
 'use client'
 
 import React from 'react'
-import ExternalRecipesList from '@/app/recipes/external/page'
+import ExternalRecipesList from '@/app/recipes/external/ExternalRecipesList.'
 import CustomRecipes from './custom/page'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Tabs from '../_components/Tabs'
 import Hero from '@/app/_components/Hero'
 
 import { PageContainer } from '@/app/recipes/RecipePageClient.styles'
+import { Recipe } from '@/app/_utils/types'
 
 interface RecipesPageClientProps {
-  initialRecipes: any[]
+  initialRecipes: Recipe[]
 }
 
 const allowedTabs = ['external', 'custom']

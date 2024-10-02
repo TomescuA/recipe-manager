@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../rootReducer'
+import { Recipe } from '@/app/_utils/types'
 
 interface RecipesState {
-  recipes: any[]
+  recipes: Recipe[]
   loading: boolean
   error: string | null
 }
@@ -14,10 +15,10 @@ const initialState: RecipesState = {
 }
 
 export const fetchRecipes = createAsyncThunk<
-  any[],
+  Recipe[],
   { query: string },
   { state: RootState; rejectValue: string }
->('recipes/fetchRecipes', async ({ query }, { getState, rejectWithValue }) => {
+>('recipes/fetchRecipes', async ({ query }, { rejectWithValue }) => {
   try {
     const response = await fetch(`/api/recipes-proxy?${query}`)
 
@@ -27,8 +28,11 @@ export const fetchRecipes = createAsyncThunk<
 
     const data = await response.json()
     return data.results
-  } catch (error: any) {
-    return rejectWithValue(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message)
+    }
+    return rejectWithValue('An unknown error occurred')
   }
 })
 
@@ -36,7 +40,7 @@ const recipesSlice = createSlice({
   name: 'recipes',
   initialState,
   reducers: {
-    setRecipes(state, action: PayloadAction<any[]>) {
+    setRecipes(state, action: PayloadAction<Recipe[]>) {
       state.recipes = action.payload
     },
   },
@@ -46,13 +50,13 @@ const recipesSlice = createSlice({
         state.loading = true
         state.error = null
       })
-      .addCase(fetchRecipes.fulfilled, (state, action: PayloadAction<any[]>) => {
+      .addCase(fetchRecipes.fulfilled, (state, action: PayloadAction<Recipe[]>) => {
         state.loading = false
         state.recipes = action.payload
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload as string
+        state.error = action.payload ?? 'Failed to fetch recipes'
       })
   },
 })

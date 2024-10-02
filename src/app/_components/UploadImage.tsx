@@ -9,24 +9,16 @@ import {
   RemoveButton,
   ImageWrapper,
 } from '@/app/_components/styles/UploadImage.styles'
+import { UploadImageProps, FormValues } from '@/app/_utils/types'
+import Image from 'next/image'
 
-export interface UploadImageProps {
-  label: string
-  name: string
-  accept?: string
-  handleImageUpload: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-  ) => void
-}
-
-const UploadImage: React.FC<UploadImageProps> = ({
+const UploadImage = ({
   label,
   name,
   accept = 'image/*',
   handleImageUpload,
-}) => {
-  const { setFieldValue, values } = useFormikContext<any>()
+}: UploadImageProps<FormValues>) => {
+  const { setFieldValue, values } = useFormikContext<FormValues>()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleRemoveImage = () => {
@@ -52,7 +44,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
       {values[name] && typeof values[name] === 'string' && (
         <PreviewImageContainer>
           <ImageWrapper>
-            <img src={values[name]} alt="Preview" />
+            <Image width={200} height={200} src={values[name]} alt="Preview" />
             <RemoveButton type="button" onClick={handleRemoveImage}>
               &times;
             </RemoveButton>

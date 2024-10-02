@@ -5,6 +5,7 @@
 // avoiding unnecessary reinitialization. This ensures better performance and stability across the app.
 
 'use client'
+import React from 'react'
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore, AppStore } from './store'

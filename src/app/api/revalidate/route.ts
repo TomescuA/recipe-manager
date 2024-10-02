@@ -3,7 +3,7 @@ import { revalidateTag } from 'next/cache'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-export async function GET (request: NextRequest): Promise<Response> {
+export async function GET(request: NextRequest): Promise<Response> {
   const tagName = request.nextUrl.searchParams.get('recipe')
 
   if (typeof tagName !== 'string') {

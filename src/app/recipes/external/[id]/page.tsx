@@ -2,10 +2,11 @@ import React from 'react'
 import { fetchRecipeDetails } from './api'
 import { fetchRecipesList } from '@/app/recipes/api'
 import DetailsComponent from './DetailsComponent'
+import { Recipe } from '@/app/_utils/types'
 
 export async function generateStaticParams(): Promise<Array<{ id: string }>> {
   const recipes = await fetchRecipesList()
-  return recipes.map((recipe: any) => ({ id: recipe.id.toString() }))
+  return recipes.map((recipe: Recipe) => ({ id: recipe.id.toString() }))
 }
 
 export default async function RecipeDetailsPage({
@@ -14,7 +15,7 @@ export default async function RecipeDetailsPage({
   params: { id: string }
 }): Promise<React.JSX.Element> {
   const recipeId = params.id
-  const recipe: any = await fetchRecipeDetails(recipeId)
+  const recipe: Recipe = await fetchRecipeDetails(recipeId)
 
   return <DetailsComponent recipe={recipe} />
 }

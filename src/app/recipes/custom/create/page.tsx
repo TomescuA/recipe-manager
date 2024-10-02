@@ -2,11 +2,12 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import RecipeForm, { FormValues } from '@/app/recipes/_components/ManageRecipesForm'
+import RecipeForm from '@/app/recipes/_components/ManageRecipesForm'
 import { OuterContainer, InnerContainer, Container } from './CreateRecipe.styles'
 import Hero from '@/app/_components/Hero'
 import { useAppDispatch } from '@/app/_store/store'
 import { createRecipe } from '@/app/_store/slices/customRecipesSlice'
+import { FormValues } from '@/app/_utils/types'
 
 const NewRecipePage: React.FC = () => {
   const router = useRouter()

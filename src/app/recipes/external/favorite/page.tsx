@@ -9,6 +9,7 @@ import { Grid } from '@/app/_components/styles/Grid.styles'
 import { RecipeContainer } from '@/app/recipes/external/External.styles'
 import styled from 'styled-components'
 import Hero from '@/app/_components/Hero'
+import { Recipe } from '@/app/_utils/types'
 
 const NoRecipesContainer = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const FavoritesList: React.FC = () => {
   const dispatch = useDispatch()
   const favorites = useSelector((state: RootState) => state.favorite.elements)
 
-  const onToggleFavorite = (recipe: any) => {
+  const onToggleFavorite = (recipe: Recipe) => {
     dispatch(removeFavorite(recipe))
     alert(`${recipe.title} has been removed from your favorites!`)
   }

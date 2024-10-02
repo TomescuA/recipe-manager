@@ -1,15 +1,11 @@
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export interface ButtonProps {
   color?: 'primary' | 'secondary' | 'danger'
   variant?: 'default' | 'outline'
-  children: React.ReactNode
-  onClick?: (e?: any) => void
-  type?: 'button' | 'submit' | 'reset'
-  disabled?: boolean
 }
 
-const getColor = (color: ButtonProps['color'], theme: any) => {
+const getColor = (color: ButtonProps['color'], theme: DefaultTheme) => {
   switch (color) {
     case 'primary':
       return theme.colors.primary
@@ -25,7 +21,7 @@ const getColor = (color: ButtonProps['color'], theme: any) => {
 const getVariantStyles = (
   variant: ButtonProps['variant'],
   color: ButtonProps['color'],
-  theme: any,
+  theme: DefaultTheme,
 ) => {
   if (variant === 'outline') {
     return css`

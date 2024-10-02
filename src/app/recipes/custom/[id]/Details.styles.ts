@@ -80,7 +80,7 @@ export const DietaryLabelsList = styled.ul`
 
   li {
     display: inline-block;
-    background-color: ${({ theme }) => theme.colors.secondary};
+    background-color: ${({ theme }) => theme.colors?.secondary};
     color: ${({ theme }) => theme.colors.white};
     padding: 0.5rem 1rem;
     border-radius: ${({ theme }) => theme.borderRadius.small};

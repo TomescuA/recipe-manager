@@ -1,8 +1,9 @@
 'use client'
-
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { RootState } from '@/app/_store/rootReducer'
+import { useAppDispatch } from '@/app/_store/store'
+import { deleteRecipe } from '@/app/_store/slices/customRecipesSlice'
 import {
   TopContainer,
   RecipeContent,
@@ -15,60 +16,25 @@ import {
   BackLink,
 } from './Details.styles'
 
+import { useSelector } from 'react-redux'
+
 import Button from '@/app/_components/Button'
 import Hero from '@/app/_components/Hero'
-
-interface CustomRecipe {
-  id: string
-  title: string
-  description: string
-  image: string | null
-  ingredients: string
-  cookingTime: string
-  dietaryLabels: string[]
-  instructions: string
-}
 
 const CustomRecipeDetailsPage: React.FC = () => {
   const params = useParams()
   const router = useRouter()
-  const { id } = params
+  const id = Array.isArray(params.id) ? params.id[0] : params.id
+  const dispatch = useAppDispatch()
 
-  const [recipe, setRecipe] = useState<CustomRecipe | null>(null)
-
-  useEffect(() => {
-    const storedRecipes = localStorage.getItem('customRecipes')
-    if (storedRecipes) {
-      try {
-        const recipes: CustomRecipe[] = JSON.parse(storedRecipes)
-        const foundRecipe = recipes.find((r) => r.id === id)
-        if (foundRecipe) {
-          setRecipe(foundRecipe)
-        } else {
-          console.error('Recipe not found')
-        }
-      } catch (error) {
-        console.error('Failed to parse recipes from localStorage:', error)
-      }
-    } else {
-      console.error('No custom recipes found in localStorage')
-    }
-  }, [id])
+  const recipes = useSelector((state: RootState) => state.customRecipes.recipes)
+  const recipe = recipes.find((r) => r.id === id) || null
 
   const onDelete = () => {
     const confirmed = window.confirm('Are you sure you want to delete this recipe?')
     if (confirmed) {
-      const storedRecipes = localStorage.getItem('customRecipes')
-      if (storedRecipes) {
-        try {
-          const recipes: CustomRecipe[] = JSON.parse(storedRecipes)
-          const updatedRecipes = recipes.filter((r) => r.id !== id)
-          localStorage.setItem('customRecipes', JSON.stringify(updatedRecipes))
-          router.push('/recipes?tab=custom')
-        } catch (error) {
-          console.error('Failed to delete recipe:', error)
-        }
-      }
+      dispatch(deleteRecipe(id))
+      router.push('/recipes?tab=custom')
     }
   }
 
@@ -80,7 +46,6 @@ const CustomRecipeDetailsPage: React.FC = () => {
       </NotFoundContainer>
     )
   }
-
   return (
     <>
       <Hero title={recipe.title} />

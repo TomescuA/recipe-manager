@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Formik, Form, FormikProps } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import Resizer from 'react-image-file-resizer'
 import FormikInput from '@/app/_components/FormikInput'
@@ -9,6 +9,7 @@ import UploadImage from '@/app/_components/UploadImage'
 import FormikSelect from '@/app/_components/FormikSelect'
 import Button from '@/app/_components/Button'
 import styled from 'styled-components'
+import { FormValues, SetFieldValue } from '@/app/_utils/types'
 
 const FormGrid = styled.div`
   display: grid;
@@ -28,16 +29,6 @@ const FullWidthGrid = styled.div`
     justify-content: center;
   }
 `
-
-export interface FormValues {
-  title: string
-  image: string
-  description: string
-  ingredients: string
-  dietaryLabels: string[]
-  instructions: string
-  cookingTime: number
-}
 
 interface ManageRecipesProps {
   onSubmit: (values: FormValues) => void
@@ -79,7 +70,10 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
     dietaryLabels: Yup.string().required('Dietary label is required'),
   })
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: any) => {
+  const handleImageUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: SetFieldValue<FormValues>,
+  ) => {
     const file = event.currentTarget.files?.[0]
     if (file) {
       try {
@@ -121,8 +115,7 @@ const RecipeForm: React.FC<ManageRecipesProps> = ({
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {(formikProps: FormikProps<FormValues>) => {
-        const { setFieldValue, values } = formikProps
+      {() => {
         return (
           <Form>
             <FormikInput

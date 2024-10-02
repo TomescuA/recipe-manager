@@ -16,7 +16,5 @@ export default async function RecipeDetailsPage({
   const recipeId = params.id
   const recipe: any = await fetchRecipeDetails(recipeId)
 
-  console.log('recipe inside the external id', recipe)
-
   return <DetailsComponent recipe={recipe} />
 }

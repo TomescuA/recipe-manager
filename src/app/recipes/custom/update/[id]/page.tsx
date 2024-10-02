@@ -44,7 +44,6 @@ const UpdateRecipePage: React.FC<UpdateRecipePageProps> = ({ params }) => {
         instructions: recipe.instructions,
       })
     } else {
-      console.error('Recipe not found')
       router.push('/recipes')
     }
   }, [id, recipe, router])

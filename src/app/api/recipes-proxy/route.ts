@@ -34,10 +34,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const data = await responseRecipes.json()
 
-    console.log('API Proxy Response:', data)
-
-    console.log(data)
-
     return NextResponse.json(data, {
       status: 200,
       headers: {
@@ -45,7 +41,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       },
     })
   } catch (error) {
-    console.error('API Proxy Error:', error)
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 })
   }
 }

@@ -1,14 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { fetchSuggestions, clear } from '@/app/_store/slices/searchSlice'
-import { fetchRecipes } from '@/app/_store/slices/recipesSlice'
-import { RootState } from '@/app/_store/rootReducer'
-import { addFavorite, removeFavorite } from '@/app/_store/slices/favoriteReducer'
-import RecipeCard from '@/app/recipes/_components/RecipeCard'
 import debounce from 'lodash/debounce'
-import { useCallback } from 'react'
 import { useAppDispatch } from '@/app/_store/store'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
@@ -22,6 +16,11 @@ import Button from '@/app/_components/Button'
 import RadioGroup from '@/app/_components/RadioGroup'
 import { Grid } from '@/app/_components/styles/Grid.styles'
 import SearchAutocomplete from '@/app/_components/SearchAutocomplete'
+import { fetchSuggestions, clear } from '@/app/_store/slices/searchSlice'
+import { fetchRecipes } from '@/app/_store/slices/recipesSlice'
+import RecipeCard from '@/app/recipes/_components/RecipeCard'
+import { RootState } from '@/app/_store/rootReducer'
+import { addFavorite, removeFavorite } from '@/app/_store/slices/favoriteReducer'
 
 const dietaryOptions = [
   { label: 'Vegetarian', value: 'vegetarian' },
@@ -32,7 +31,7 @@ const dietaryOptions = [
   { label: 'Low Sugar', value: 'lowSugar' },
 ]
 
-const ExternalRecipesList = ({ recipes }: { recipes: any }) => {
+const ExternalRecipesList = ({ recipes: initialRecipes }: { recipes: any[] }) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -51,6 +50,7 @@ const ExternalRecipesList = ({ recipes }: { recipes: any }) => {
 
   const [searchValue, setSearchValue] = useState('')
   const [selectedDiet, setSelectedDiet] = useState('')
+  const [hasSearched, setHasSearched] = useState(false)
 
   const debouncedFetchSuggestions = useCallback(
     debounce((query: string) => {
@@ -78,8 +78,8 @@ const ExternalRecipesList = ({ recipes }: { recipes: any }) => {
     }
 
     router.push(`?${params.toString()}`)
-
     dispatch(fetchRecipes({ query: params.toString() }))
+    setHasSearched(true)
   }
 
   const handleDietaryChange = (value: string) => {
@@ -105,7 +105,9 @@ const ExternalRecipesList = ({ recipes }: { recipes: any }) => {
       alert(`${recipe.title} has been added to your favorites!`)
     }
   }
-  const dataRecipes = loadingRecipes || searchValue ? searchRecipes : recipes
+
+  const dataRecipes =
+    hasSearched && searchRecipes.length > 0 && searchValue ? searchRecipes : initialRecipes
 
   return (
     <RecipeContainer>

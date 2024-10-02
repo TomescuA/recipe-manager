@@ -6,7 +6,7 @@ export const RadioGroupContainer = styled.div`
   margin-bottom: 1rem;
 
   @media ${({ theme }) => theme.breakpoints.xs} {
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 0;
   }
 `
@@ -17,7 +17,7 @@ export const RadioWrapper = styled.div`
   justify-content: center;
 
   @media ${({ theme }) => theme.breakpoints.xs} {
-    justify-content: flex-start;
+    justify-content: center;
   }
 `
 

@@ -14,12 +14,8 @@ export const InnerContainer = styled.div`
   max-width: 1200px;
   margin: 0 4rem;
 
-  @media ${({ theme }) => theme.breakpoints.sm} {
-    padding: 2.5rem;
-  }
-
-  @media ${({ theme }) => theme.breakpoints.lg} {
-    padding: 0 2rem;
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    padding: 1rem;
   }
 `
 
@@ -27,4 +23,8 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   padding: 4rem 0;
+
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    padding: 2rem 0;
+  }
 `

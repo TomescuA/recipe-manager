@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import RecipeCard from '@/app/recipes/_components/RecipeCard'
 import { Grid } from '@/app/_components/styles/Grid.styles'
 import { RecipeContainer, TopContainer } from '../external/External.styles'
@@ -58,9 +57,7 @@ const CustomRecipesList: React.FC = () => {
         ) : (
           <NoRecipesContainer>
             <p>No custom recipes found. Add your own recipes!</p>
-            <Button>
-              <Link href="/recipes/custom/create">Add Recipe</Link>
-            </Button>
+            <Button onClick={() => router.push('/recipes/custom/create')}>Add Recipe</Button>
           </NoRecipesContainer>
         )}
       </RecipesMainContainer>

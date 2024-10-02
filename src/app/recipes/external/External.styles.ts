@@ -77,6 +77,10 @@ export const TopContainer = styled.div`
   align-items: center;
   margin-top: 1rem;
   width: 100%;
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    margin-top: 0rem;
+    padding-right: 0.5rem;
+  }
 `
 
 export const FiltersContainer = styled.div`
@@ -108,4 +112,9 @@ export const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    justify-content: center;
+    max-width: 400px;
+  }
 `

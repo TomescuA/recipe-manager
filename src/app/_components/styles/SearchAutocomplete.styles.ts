@@ -5,6 +5,9 @@ export const SearchContainer = styled.div`
   width: 100%;
   max-width: 500px;
   margin-right: 1rem;
+  @media ${({ theme }) => theme.breakpoints.xs} {
+    max-wdth: 250px;
+  }
 `
 
 export const SearchInput = styled.input`
